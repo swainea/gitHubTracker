@@ -22,32 +22,31 @@
     </nav>
 
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane active" id="profile">Profile</div>
-      <div role="tabpanel" class="tab-pane" id="repos">Repos</div>
+      <div role="tabpanel" class="tab-pane active" id="profileTab"></div>
+      <div role="tabpanel" class="tab-pane" id="reposTab"></div>
     </div>
   </nav>
 
-    <form id="submitToken" action="#profile">
-      <input id="userToken" type="text" placeholder="GitHub API Token">
-      <input type="submit" value="Login">
-    </form>
-
     <main>
-      <section id="profile" class="view">
 
+      <form id="login" action="#profile">
+        <input id="userToken" type="text" placeholder="GitHub API Token">
+        <input type="submit" value="Login">
+      </form>
+
+      <section id="profile" class="view">
+      
       </section>
 
       <section id="repos" class='view'>
-
+        User Repos
       </section>
     </main>
 
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- <script src='JS/login.js'></script>
-    <script src='JS/nav.js'></script> -->
-    <script scr='JS/main.js'></script>
+    <script src='JS/main.js'></script>
 
-    </script>
+    <script>window.ght.init();</script>
 
   </body>
 </html>

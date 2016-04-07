@@ -26,6 +26,10 @@ module.exports = function(grunt) {
       sass: {
         files: ['scss/**/*.scss'],
         tasks: ['css-build']
+      },
+      html: {
+        files: ['index.html'],
+        tasks: ['copy:html']
       }
     },
 
@@ -34,11 +38,16 @@ module.exports = function(grunt) {
     copy: {
       html: {
         expand: true,
-        src: ['*.html'],
+        src: ['index.html'],
         dest:'dist/'
       },
-
-    vendorjs: {
+      CSS: {
+        expand: true,
+        cwd: 'CSS/',
+        src: ['normalize.css'],
+        dest:'dist/css/'
+      },
+      vendorjs: {
         expand: true,
         cwd: 'JS/vendor/jquery/dist',
         src: ['jquery.js'],

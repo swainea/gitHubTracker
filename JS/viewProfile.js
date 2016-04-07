@@ -1,14 +1,24 @@
 (function(ns) {
   'use strict';
 
-  ns['profile'] = {};
+  console.log(ns.userData);
 
-      ns['profile'].load = function load() {
-          // Do an ajax call to get article data
-          $('#profile').append(
-              '<p>This is the ARTICLE. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>'
-          );
-      };
+  ns.profile = {};
+
+  //might need a function that clears the HTML
+  
+  ns.profile.load = function load() {
+    console.log('loading profile view');
+    console.log(ns.userData.login);
+      $('#profile')
+        .append( $('<ul>')
+          .append( $('<li>').text("Username: " + ns.userData.login))
+          .append( $('<li>').text("Name: " + ns.userData.name))
+          .append( $('<li>').text("Repos: " + ns.userData.public_repos))
+          .append( $('<li>').text("Followers: " + ns.userData.followers))
+          .append( $('<li>').text("Account created: " + ns.userData.created_at)) //need to convert this date
+        );
+  };
 
   window.ght = ns;
 })(window.ght || {});

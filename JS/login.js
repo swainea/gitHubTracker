@@ -21,8 +21,8 @@
       success: function (data){
         console.log(data);
         ns.userData = data;
+        console.log(ns.userData);
         callback();
-        console.log('ajax complete');
       },
       error: function (){
         alert('Please enter a valid GitHub Token');
@@ -36,15 +36,14 @@
    * @return {[type]}            [description]
    */
 
-  $('#submitToken').submit(function loginWithToken(event){
+  $('#login').submit(function loginWithToken(event){
     event.preventDefault();
     ns.userToken = $('#userToken').val();
-    console.log(ns.userToken);
-    var nextView = $(this).attr('action'); // this needs to happen upon completetion of the ajax request, right now it is happening before the request finishes
-    console.log('inside event handler', nextView);
+
+    var nextView = $(this).attr('action');
     getData(function dataSuccessful (){
       window.location.hash = nextView;
-      //this is where I call a function that hides the login in the UI
+      $('#login').hide();
     });
 
   });
