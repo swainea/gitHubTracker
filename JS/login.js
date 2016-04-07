@@ -1,8 +1,14 @@
 (function(ns) {
   'use strict';
 
-  ns.userToken = "";
-  ns.userData = {}; // should this be an object or an array? the data returned from API is an object
+  ns.userToken = ""; //we dont want this on the NS
+  ns.userData = {}; //we dont want this on the NS
+
+/**
+ * [getData description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
 
   function getData(callback) {
     $.ajax({
@@ -15,14 +21,20 @@
       success: function (data){
         console.log(data);
         ns.userData = data;
-        callback(data);
+        callback();
         console.log('ajax complete');
       },
-      error: function (data){
+      error: function (){
         alert('Please enter a valid GitHub Token');
       }
     });
   }
+
+  /**
+   * [getData description]
+   * @param  {Function} callback [description]
+   * @return {[type]}            [description]
+   */
 
   $('#submitToken').submit(function loginWithToken(event){
     event.preventDefault();
@@ -30,11 +42,10 @@
     console.log(ns.userToken);
     var nextView = $(this).attr('action'); // this needs to happen upon completetion of the ajax request, right now it is happening before the request finishes
     console.log('inside event handler', nextView);
-    getData(function dataSuccessful (data){
+    getData(function dataSuccessful (){
       window.location.hash = nextView;
       //this is where I call a function that hides the login in the UI
     });
-    console.log('after getData is called');
 
   });
 
