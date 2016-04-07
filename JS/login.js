@@ -21,7 +21,6 @@
       success: function (data){
         console.log(data);
         ns.userData = data;
-        console.log(ns.userData);
         callback();
       },
       error: function (){
