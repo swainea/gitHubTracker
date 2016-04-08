@@ -21,7 +21,7 @@
       success: function (data){
         console.log(data);
         ns.userData = data;
-        callback();
+        callback(data);
       },
       error: function (){
         alert('Please enter a valid GitHub Token');

@@ -33,7 +33,10 @@ module.exports = function(grunt) {
       }
     },
 
-    clean: ['dist/'],
+    clean: {
+      all: ['dist/'],
+      js: ['dist/js/main.js']
+    },
 
     copy: {
       html: {
@@ -58,11 +61,34 @@ module.exports = function(grunt) {
     concat: {
       options: {
         seperator: ';',
+        sourceMap: true
       },
       js: {
         src: ['js/*.js'],
         dest: 'dist/js/main.js',
+      },
+
+    mocha: {
+      all: {
+        options: {
+          urls: [
+            'http:///localhost:8888/test/login.html',
+            'http:///localhost:8888/test/repos.html'
+        ]
       }
+      }
+    },
+
+    connect: {
+      server: {
+        options: {
+
+          port: 8888,
+          base: '.'
+        }
+      }
+    }
+
     }
 
   });
@@ -73,9 +99,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-mocha');
 
-  grunt.registerTask('js-build', ['jshint', 'concat:js']);
+
+  grunt.registerTask('js-build', ['clean:js', 'jshint', 'concat:js']);
   grunt.registerTask('css-build', ['sass']);
-  grunt.registerTask('default', ['clean', 'copy', 'js-build', 'css-build']);
+  grunt.registerTask('test', ['connect', 'mocha']);
+  grunt.registerTask('default', ['clean:all', 'copy', 'js-build', 'css-build']);
 
 };

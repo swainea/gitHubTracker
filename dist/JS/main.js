@@ -21,7 +21,7 @@
       success: function (data){
         console.log(data);
         ns.userData = data;
-        callback();
+        callback(data);
       },
       error: function (){
         alert('Please enter a valid GitHub Token');
@@ -67,11 +67,19 @@
     if (newView.length === 0) {
             window.location.hash = '#login';
     } else {
-      var viewName = window.location.hash.substr(1); 
-           if (ns[viewName] && ns[viewName].load) {
-               ns[viewName].load();
-           }
-       }
+      var viewName = window.location.hash.substr(1);
+
+      // {
+      //   profile: 'bar'
+      // }
+      //
+      // var foobar = 'profile';
+      // ns[foobar]  === ns['profile'] === ns.profile
+
+      if (ns[viewName] && ns[viewName].load) {
+        ns[viewName].load();
+      }
+    }
   }
 
 ns.init = function() {
@@ -85,8 +93,6 @@ ns.init = function() {
   'use strict';
 
   ns.repos = {};
-  var userRepos = [];
-  var repoData = [];
 
   function getRepos(callback) {
     $.ajax({
@@ -97,8 +103,7 @@ ns.init = function() {
               Authorization: "token " + ns.userToken
             },
       success: function (data){
-        userRepos = data;
-        callback();
+        callback(data);
       },
       error: function (){
         alert('Please login first');
@@ -107,19 +112,32 @@ ns.init = function() {
   }
 
   ns.repos.load = function load() {
-      getRepos(function reposSuccessful() {
+      getRepos(function reposSuccessful(userRepos) {
+        var repoData = [];
         console.log(userRepos);
         userRepos.forEach(function(element){
           repoData.push ( { name: element.full_name, stars: element.stargazers_count, openIssues: element.open_issues_count} );
           console.log(repoData);
-          // gitHubOrgs.renderItem( userData[userData.length-1] );
         });
+
+        ns.renderRepos(repoData);
+
       });
   };
-      // $('#profile').append(
-      //     '<p>This is the ARTICLE. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>'
-      // );
-
+  ns.renderRepos = function renderRepos(data,i){
+    $('#repos')
+    .append($('<table>')
+    .append($('<thead>')
+    .append($('<tr><th>' + 'Name' + '</th><th>' + 'Stars' + '</th><th>' + 'Open Issues' + '</th></tr>') )
+  )
+);
+$('#repos table')
+.append($('<tbody>').attr('id', 'repoTableData'));
+for(i=0; i<data.length; i++){
+  $('#repoTableData')
+  .append($('<tr><td>' + data[i].name + i + '</td><td>' + data[i].stars + '</td><td>' + data[i].openIssues + '</td></tr>'));
+}
+};
   window.ght = ns;
 
 })(window.ght || {});
@@ -149,3 +167,5 @@ ns.init = function() {
 
   window.ght = ns;
 })(window.ght || {});
+
+//# sourceMappingURL=main.js.map

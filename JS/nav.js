@@ -15,11 +15,19 @@
     if (newView.length === 0) {
             window.location.hash = '#login';
     } else {
-      var viewName = window.location.hash.substr(1); 
-           if (ns[viewName] && ns[viewName].load) {
-               ns[viewName].load();
-           }
-       }
+      var viewName = window.location.hash.substr(1);
+
+      // {
+      //   profile: 'bar'
+      // }
+      //
+      // var foobar = 'profile';
+      // ns[foobar]  === ns['profile'] === ns.profile
+
+      if (ns[viewName] && ns[viewName].load) {
+        ns[viewName].load();
+      }
+    }
   }
 
 ns.init = function() {
