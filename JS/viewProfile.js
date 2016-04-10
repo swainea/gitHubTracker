@@ -1,13 +1,9 @@
 (function(ns) {
   'use strict';
-
   ns.profile = {};
 
-  //might need a function that clears the HTML
-
   ns.profile.load = function load() {
-    console.log('loading profile view');
-    console.log(ns.userData.login);
+      $('#profile').empty();
       $('#profile')
         .append( $('<ul>')
           .append( $('<li>').text("Username: " + ns.userData.login))

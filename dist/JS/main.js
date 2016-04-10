@@ -23,9 +23,10 @@
         ns.userData = data;
         callback(data);
       },
-      error: function (){
-        alert('Please enter a valid GitHub Token');
-      }
+      // error: function (){
+      //   alert('Please enter a valid GitHub Token');
+      //   this error function will need to be completed
+      // }
     });
   }
 
@@ -38,13 +39,11 @@
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
     ns.userToken = $('#userToken').val();
-
     var nextView = $(this).attr('action');
     getData(function dataSuccessful (){
       window.location.hash = nextView;
       $('#login').hide();
     });
-
   });
 
   window.ght = ns;
@@ -60,7 +59,7 @@
   function doNav(){
     $('.view').hide();
     var newView = $( window.location.hash ).show();
-
+    
     $('nav li').removeClass('active');
     $('nav a[href="' + window.location.hash + '"]').closest('li').addClass('active');
 
@@ -68,13 +67,6 @@
             window.location.hash = '#login';
     } else {
       var viewName = window.location.hash.substr(1);
-
-      // {
-      //   profile: 'bar'
-      // }
-      //
-      // var foobar = 'profile';
-      // ns[foobar]  === ns['profile'] === ns.profile
 
       if (ns[viewName] && ns[viewName].load) {
         ns[viewName].load();
@@ -92,9 +84,23 @@ ns.init = function() {
 (function(ns) {
   'use strict';
 
+// call the function from repos and render the data in this view 
+
+
+  window.ght = ns;
+})(window.ght || {});
+
+(function(ns) {
+  'use strict';
+
   ns.repos = {};
+  var repoData = [];
 
   function getRepos(callback) {
+    if (repoData.length > 0){
+      callback(repoData);
+      return;
+    }
     $.ajax({
       type: 'GET',
       url: 'https://api.github.com/user/repos',
@@ -103,55 +109,58 @@ ns.init = function() {
               Authorization: "token " + ns.userToken
             },
       success: function (data){
-        callback(data);
+        repoData = data;
+        callback(repoData);
       },
-      error: function (){
-        alert('Please login first');
-      }
+      // error: function (){
+      //   alert('Please login first');
+      // }
     });
   }
 
   ns.repos.load = function load() {
       getRepos(function reposSuccessful(userRepos) {
-        var repoData = [];
-        console.log(userRepos);
-        userRepos.forEach(function(element){
-          repoData.push ( { name: element.full_name, stars: element.stargazers_count, openIssues: element.open_issues_count} );
-          console.log(repoData);
-        });
-
-        ns.renderRepos(repoData);
-
+        ns.renderRepos(userRepos);
       });
   };
   ns.renderRepos = function renderRepos(data,i){
+    $('#repos').empty();
     $('#repos')
-    .append($('<table>')
-    .append($('<thead>')
-    .append($('<tr><th>' + 'Name' + '</th><th>' + 'Stars' + '</th><th>' + 'Open Issues' + '</th></tr>') )
-  )
-);
-$('#repos table')
-.append($('<tbody>').attr('id', 'repoTableData'));
-for(i=0; i<data.length; i++){
-  $('#repoTableData')
-  .append($('<tr><td>' + data[i].name + i + '</td><td>' + data[i].stars + '</td><td>' + data[i].openIssues + '</td></tr>'));
-}
-};
+        .append($('<table>')
+            .append($('<thead>')
+                .append($('<tr><th>' + 'Name' + '</th><th>' + 'Stars' + '</th><th>' + 'Open Issues' + '</th></tr>') )
+            )
+        );
+    $('#repos table')
+          .append($('<tbody>').attr('id', 'repoTableData'));
+      for(i=0; i<data.length; i++){
+        $('#repoTableData')
+            .append($('<tr><td>' + data[i].full_name + i + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+      }
+  };
+
+  // on click we need a hash change, view change to repoDetails and to kick off a for each loop
+  // write a function here that will loop across the repoData and grab the necessary information for repo details
+  // it will need to be on the NS and called from the repo detail module.
+  // on click you will need to have the hashchange redirect the view
+  $( "#target" ).click(function getRepoDetails() {
+    var nextView = $(this).attr('action');
+    getRepos(function getReposSuccessful (repoData){
+      window.location.hash = nextView;
+      console.log(repoData);
+    }); 
+  });
+
   window.ght = ns;
 
 })(window.ght || {});
 
 (function(ns) {
   'use strict';
-
   ns.profile = {};
 
-  //might need a function that clears the HTML
-
   ns.profile.load = function load() {
-    console.log('loading profile view');
-    console.log(ns.userData.login);
+      $('#profile').empty();
       $('#profile')
         .append( $('<ul>')
           .append( $('<li>').text("Username: " + ns.userData.login))

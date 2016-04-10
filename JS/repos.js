@@ -2,8 +2,13 @@
   'use strict';
 
   ns.repos = {};
+  var repoData = [];
 
   function getRepos(callback) {
+    if (repoData.length > 0){
+      callback(repoData);
+      return;
+    }
     $.ajax({
       type: 'GET',
       url: 'https://api.github.com/user/repos',
@@ -12,41 +17,48 @@
               Authorization: "token " + ns.userToken
             },
       success: function (data){
-        callback(data);
+        repoData = data;
+        callback(repoData);
       },
-      error: function (){
-        alert('Please login first');
-      }
+      // error: function (){
+      //   alert('Please login first');
+      // }
     });
   }
 
   ns.repos.load = function load() {
       getRepos(function reposSuccessful(userRepos) {
-        var repoData = [];
-        console.log(userRepos);
-        userRepos.forEach(function(element){
-          repoData.push ( { name: element.full_name, stars: element.stargazers_count, openIssues: element.open_issues_count} );
-          console.log(repoData);
-        });
-
-        ns.renderRepos(repoData);
-
+        ns.renderRepos(userRepos);
       });
   };
   ns.renderRepos = function renderRepos(data,i){
+    $('#repos').empty();
     $('#repos')
-    .append($('<table>')
-    .append($('<thead>')
-    .append($('<tr><th>' + 'Name' + '</th><th>' + 'Stars' + '</th><th>' + 'Open Issues' + '</th></tr>') )
-  )
-);
-$('#repos table')
-.append($('<tbody>').attr('id', 'repoTableData'));
-for(i=0; i<data.length; i++){
-  $('#repoTableData')
-  .append($('<tr><td>' + data[i].name + i + '</td><td>' + data[i].stars + '</td><td>' + data[i].openIssues + '</td></tr>'));
-}
-};
+        .append($('<table>')
+            .append($('<thead>')
+                .append($('<tr><th>' + 'Name' + '</th><th>' + 'Stars' + '</th><th>' + 'Open Issues' + '</th></tr>') )
+            )
+        );
+    $('#repos table')
+          .append($('<tbody>').attr('id', 'repoTableData'));
+      for(i=0; i<data.length; i++){
+        $('#repoTableData')
+            .append($('<tr><td>' + data[i].full_name + i + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+      }
+  };
+
+  // on click we need a hash change, view change to repoDetails and to kick off a for each loop
+  // write a function here that will loop across the repoData and grab the necessary information for repo details
+  // it will need to be on the NS and called from the repo detail module.
+  // on click you will need to have the hashchange redirect the view
+  $( "#target" ).click(function getRepoDetails() {
+    var nextView = $(this).attr('action');
+    getRepos(function getReposSuccessful (repoData){
+      window.location.hash = nextView;
+      console.log(repoData);
+    }); 
+  });
+
   window.ght = ns;
 
 })(window.ght || {});
