@@ -1,7 +1,15 @@
 (function(ns) {
   'use strict';
+  ns.repoDetails = {};
 
-// call the function from repos and render the data in this view 
+  ns.repoDetails.load = function load() {
+        $('#repoDetails').empty();
+        $('#repoDetails')
+           .append( $('<ul>')
+             .append( $('<li>').text("Username: " + "Liz"))
+        );
+        //
+    };
 
 
   window.ght = ns;

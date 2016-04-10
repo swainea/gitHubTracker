@@ -43,7 +43,7 @@
           .append($('<tbody>').attr('id', 'repoTableData'));
       for(i=0; i<data.length; i++){
         $('#repoTableData')
-            .append($('<tr><td>' + data[i].full_name + i + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+            .append($('<tr><td>' + '<a class = "repoLink" + href='+ '#repoDetails' + '>' + data[i].full_name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
       }
   };
 
@@ -51,12 +51,14 @@
   // write a function here that will loop across the repoData and grab the necessary information for repo details
   // it will need to be on the NS and called from the repo detail module.
   // on click you will need to have the hashchange redirect the view
-  $( "#target" ).click(function getRepoDetails() {
+  $( ".repoLink" ).click(function getRepoDetails() {
+    event.preventDefault();
     var nextView = $(this).attr('action');
     getRepos(function getReposSuccessful (repoData){
+      // ns.renderRepoDetail(userRepos); 
       window.location.hash = nextView;
       console.log(repoData);
-    }); 
+    });
   });
 
   window.ght = ns;

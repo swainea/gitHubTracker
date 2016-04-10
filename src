@@ -14,9 +14,9 @@
   </head>
   <body>
     <nav>
-      <ul class= I WILL GET THIS CLASS FROM BOOTSTRAP?!!? -->
-         <li><a href='#profile'>Profile</a></li> THESE will correspond to my tabs -->
-          <li><a href='#repos'>Repos</a></li> -->
+      <ul>
+         <li><a href='#profile'>Profile</a></li>
+          <li><a href='#repos'>Repos</a></li>
       </ul>
     </nav>
 
@@ -33,14 +33,13 @@
       <section id="repos" class='view'>
 
       </section>
+
+      <section id="repoDetails" class='view'>
+
+      </section>
     </main>
 
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <script>
-      if(!window.$){
-        document.querySelector('body').innerHTML += "<script src="JS/vendor/iquery/dist/jquery.min.js"></script>"
-      }
-    </script>
     <!-- <script src='JS/login.js'></script>
     <script src='JS/nav.js'></script> -->
     <script scr='JS/main.js'></script> -->

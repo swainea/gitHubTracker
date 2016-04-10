@@ -1,14 +1,8 @@
 (function(ns) {
   'use strict';
 
-  ns.userToken = ""; //we dont want this on the NS
-  ns.userData = {}; //we dont want this on the NS
-
-/**
- * [getData description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
- */
+  ns.userToken = "";
+  ns.userData = {};
 
   function getData(callback) {
     $.ajax({
@@ -29,12 +23,6 @@
       // }
     });
   }
-
-  /**
-   * [getData description]
-   * @param  {Function} callback [description]
-   * @return {[type]}            [description]
-   */
 
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
@@ -59,12 +47,12 @@
   function doNav(){
     $('.view').hide();
     var newView = $( window.location.hash ).show();
-    
+
     $('nav li').removeClass('active');
     $('nav a[href="' + window.location.hash + '"]').closest('li').addClass('active');
 
     if (newView.length === 0) {
-            window.location.hash = '#login';
+            window.location.hash ='#login';
     } else {
       var viewName = window.location.hash.substr(1);
 
@@ -83,8 +71,16 @@ ns.init = function() {
 
 (function(ns) {
   'use strict';
+  ns.repoDetails = {};
 
-// call the function from repos and render the data in this view 
+  ns.repoDetails.load = function load() {
+        $('#repoDetails').empty();
+        $('#repoDetails')
+           .append( $('<ul>')
+             .append( $('<li>').text("Username: " + "Liz"))
+        );
+        //
+    };
 
 
   window.ght = ns;
@@ -135,7 +131,7 @@ ns.init = function() {
           .append($('<tbody>').attr('id', 'repoTableData'));
       for(i=0; i<data.length; i++){
         $('#repoTableData')
-            .append($('<tr><td>' + data[i].full_name + i + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+            .append($('<tr><td>' + '<a class = "repoLink" + href='+ '#repoDetails' + '>' + data[i].full_name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
       }
   };
 
@@ -143,12 +139,14 @@ ns.init = function() {
   // write a function here that will loop across the repoData and grab the necessary information for repo details
   // it will need to be on the NS and called from the repo detail module.
   // on click you will need to have the hashchange redirect the view
-  $( "#target" ).click(function getRepoDetails() {
+  $( ".repoLink" ).click(function getRepoDetails() {
+    event.preventDefault();
     var nextView = $(this).attr('action');
     getRepos(function getReposSuccessful (repoData){
+      // ns.renderRepoDetail(userRepos); 
       window.location.hash = nextView;
       console.log(repoData);
-    }); 
+    });
   });
 
   window.ght = ns;

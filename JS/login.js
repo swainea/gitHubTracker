@@ -1,14 +1,8 @@
 (function(ns) {
   'use strict';
 
-  ns.userToken = ""; //we dont want this on the NS
-  ns.userData = {}; //we dont want this on the NS
-
-/**
- * [getData description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
- */
+  ns.userToken = "";
+  ns.userData = {};
 
   function getData(callback) {
     $.ajax({
@@ -29,12 +23,6 @@
       // }
     });
   }
-
-  /**
-   * [getData description]
-   * @param  {Function} callback [description]
-   * @return {[type]}            [description]
-   */
 
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
