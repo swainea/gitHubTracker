@@ -4,6 +4,8 @@
   ns.userToken = "";
   ns.userData = {};
 
+  $('.nav').hide();
+
   function getData(callback) {
     $.ajax({
       type: 'GET',
@@ -16,16 +18,17 @@
         console.log(data);
         ns.userData = data;
         callback(data);
+        $('.nav').show();
       },
-      // error: function (){
-      //   alert('Please enter a valid GitHub Token');
-      //   this error function will need to be completed
-      // }
+      error: function (){
+        return('Please enter a valid GitHub Token');
+      }
     });
   }
 
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
+    $('.nav').hide();
     ns.userToken = $('#userToken').val();
     var nextView = $(this).attr('action');
     getData(function dataSuccessful (){

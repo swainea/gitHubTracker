@@ -9,7 +9,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no'>
 
     <link rel='stylesheet' type='text/css' href='CSS/normalize.css'>
-    <!-- <link rel='stylesheet' type='text/css' href='CSS/______.css'> -->
+    <link rel='stylesheet' type='text/css' href='CSS/main.css'> -->
 
   </head>
   <body>
@@ -40,8 +40,6 @@
     </main>
 
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-    <!-- <script src='JS/login.js'></script>
-    <script src='JS/nav.js'></script> -->
     <script scr='JS/main.js'></script> -->
 
     </script>

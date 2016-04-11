@@ -4,6 +4,8 @@
   ns.userToken = "";
   ns.userData = {};
 
+  $('.nav').hide();
+
   function getData(callback) {
     $.ajax({
       type: 'GET',
@@ -16,16 +18,17 @@
         console.log(data);
         ns.userData = data;
         callback(data);
+        $('.nav').show();
       },
-      // error: function (){
-      //   alert('Please enter a valid GitHub Token');
-      //   this error function will need to be completed
-      // }
+      error: function (){
+        return('Please enter a valid GitHub Token');
+      }
     });
   }
 
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
+    $('.nav').hide();
     ns.userToken = $('#userToken').val();
     var nextView = $(this).attr('action');
     getData(function dataSuccessful (){
@@ -71,17 +74,24 @@ ns.init = function() {
 
 (function(ns) {
   'use strict';
-  ns.repoDetails = {};
+  ns.reposDetail = {};
 
-  ns.repoDetails.load = function load() {
-        $('#repoDetails').empty();
-        $('#repoDetails')
+  ns.reposDetail.load = function load() {
+      $('#reposDetail').empty();
+      repoDetailNav();
+        $('#reposDetail')
            .append( $('<ul>')
-             .append( $('<li>').text("Username: " + "Liz"))
+             .append( $('<li>').text("Page Under Construction"))
         );
-        //
     };
 
+    function repoDetailNav(){
+      $('.nav')
+          .append($('<li>')
+             .append($('<a>').attr('href','#repoDetails').text('Repo Detail')
+           )
+      );
+    }
 
   window.ght = ns;
 })(window.ght || {});
@@ -108,9 +118,9 @@ ns.init = function() {
         repoData = data;
         callback(repoData);
       },
-      // error: function (){
-      //   alert('Please login first');
-      // }
+      error: function (){
+        alert('Please login first');
+      }
     });
   }
 
@@ -122,7 +132,7 @@ ns.init = function() {
   ns.renderRepos = function renderRepos(data,i){
     $('#repos').empty();
     $('#repos')
-        .append($('<table>')
+        .append($('<table>').attr('class', 'table table-striped table-bordered')
             .append($('<thead>')
                 .append($('<tr><th>' + 'Name' + '</th><th>' + 'Stars' + '</th><th>' + 'Open Issues' + '</th></tr>') )
             )
@@ -131,7 +141,7 @@ ns.init = function() {
           .append($('<tbody>').attr('id', 'repoTableData'));
       for(i=0; i<data.length; i++){
         $('#repoTableData')
-            .append($('<tr><td>' + '<a class = "repoLink" + href='+ '#repoDetails' + '>' + data[i].full_name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+            .append($('<tr><td>' + '<a class = "repoLink" + href='+ '#reposDetail' + '>' + data[i].full_name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
       }
   };
 
@@ -139,15 +149,16 @@ ns.init = function() {
   // write a function here that will loop across the repoData and grab the necessary information for repo details
   // it will need to be on the NS and called from the repo detail module.
   // on click you will need to have the hashchange redirect the view
-  $( ".repoLink" ).click(function getRepoDetails() {
-    event.preventDefault();
-    var nextView = $(this).attr('action');
-    getRepos(function getReposSuccessful (repoData){
-      // ns.renderRepoDetail(userRepos); 
-      window.location.hash = nextView;
-      console.log(repoData);
-    });
-  });
+  
+  // $( ".repoLink" ).click(function getRepoDetails() {
+  //   event.preventDefault();
+  //   var nextView = $(this).attr('action');
+  //   getRepos(function getReposSuccessful (){
+  //     // ns.reposDetail(repoData);
+  //     console.log(repoData);
+  //     window.location.hash = nextView;
+  //   });
+  // });
 
   window.ght = ns;
 
@@ -160,13 +171,15 @@ ns.init = function() {
   ns.profile.load = function load() {
       $('#profile').empty();
       $('#profile')
-        .append( $('<ul>')
-          .append( $('<li>').text("Username: " + ns.userData.login))
-          .append( $('<li>').text("Name: " + ns.userData.name))
-          .append( $('<li>').text("Repos: " + ns.userData.public_repos))
-          .append( $('<li>').text("Followers: " + ns.userData.followers))
-          .append( $('<li>').text("Account created: " + ns.userData.created_at)) //need to convert this date
-        );
+        .append( $('<div class="wrapper">')
+          .append( $('<ul>')
+            .append( $('<li>').text("Username: " + ns.userData.login))
+            .append( $('<li>').text("Name: " + ns.userData.name))
+            .append( $('<li>').text("Repos: " + ns.userData.public_repos))
+            .append( $('<li>').text("Followers: " + ns.userData.followers))
+            .append( $('<li>').text("Account created: " + ns.userData.created_at)) //need to convert this date
+          )
+        ); 
       $('#profile')
         .append($('<img>',{id:'userAvatar',src: ns.userData.avatar_url})
       );

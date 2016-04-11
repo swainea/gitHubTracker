@@ -1,16 +1,23 @@
 (function(ns) {
   'use strict';
-  ns.repoDetails = {};
+  ns.reposDetail = {};
 
-  ns.repoDetails.load = function load() {
-        $('#repoDetails').empty();
-        $('#repoDetails')
+  ns.reposDetail.load = function load() {
+      $('#reposDetail').empty();
+      repoDetailNav();
+        $('#reposDetail')
            .append( $('<ul>')
-             .append( $('<li>').text("Username: " + "Liz"))
+             .append( $('<li>').text("Page Under Construction"))
         );
-        //
     };
 
+    function repoDetailNav(){
+      $('.nav')
+          .append($('<li>')
+             .append($('<a>').attr('href','#repoDetails').text('Repo Detail')
+           )
+      );
+    }
 
   window.ght = ns;
 })(window.ght || {});
