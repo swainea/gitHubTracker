@@ -6,22 +6,24 @@
 
   $('.nav').hide();
 
-  function getData(callback) {
+  function getData(token, callback) {
     $.ajax({
       type: 'GET',
       url: 'https://api.github.com/user',
       dataType: 'json',
       headers: {
-              Authorization: "token " + ns.userToken
+              Authorization: "token " + token
             },
       success: function (data){
         console.log(data);
+        // now we know the  token is valid
+        ns.userToken = token;
         ns.userData = data;
         callback(data);
-        $('.nav').show();
+
       },
       error: function (){
-        return('Please enter a valid GitHub Token');
+        callback(null);
       }
     });
   }
@@ -29,12 +31,22 @@
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
     $('.nav').hide();
-    ns.userToken = $('#userToken').val();
+    // ns.userToken = $('#userToken').val();
     var nextView = $(this).attr('action');
-    getData(function dataSuccessful (){
-      window.location.hash = nextView;
-      $('#login').hide();
-    });
+    getData($('#userToken').val(), function dataSuccessful (data) {
+      if (data){
+        window.location.hash = nextView;
+        $('#login').hide();
+        $('.nav').show();
+      } else {
+        console.log('login failed!');
+        // other UI things
+      }
+
+    });  // end of getData
+
+    // any code here would execute BEFORE our callback above
+
   });
 
   window.ght = ns;

@@ -15,7 +15,7 @@
     if (newView.length === 0) {
             window.location.hash ='#login';
     } else {
-      var viewName = window.location.hash.substr(1);
+      var viewName = window.location.hash.substr(1); // split out the repo name here but the underscores are a problem- cant split on them bc they are in repo names 
 
       if (ns[viewName] && ns[viewName].load) {
         ns[viewName].load();

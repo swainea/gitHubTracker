@@ -13,7 +13,7 @@
             .append( $('<li>').text("Followers: " + ns.userData.followers))
             .append( $('<li>').text("Account created: " + ns.userData.created_at)) //need to convert this date
           )
-        ); 
+        );
       $('#profile')
         .append($('<img>',{id:'userAvatar',src: ns.userData.avatar_url})
       );
