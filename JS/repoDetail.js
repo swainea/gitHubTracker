@@ -2,20 +2,26 @@
   'use strict';
   ns.reposDetail = {};
 
-  
-    ns.reposDetail.load = function load (){
-      // I want to write a function to interate over the repoData
-      ns.repoData forEach(function ( repoData ){
-        //if the name from the split hash of the repo = particular name in the repo then do the appending
-      });
-    }
 
-    ns.renderRepoDetails = function renderRepoDetails(){
+  ns.reposDetail.load = function load ( repo ){
+    console.log('inside load function');
+    console.log("Requested Repo",repo);
+    ns.repoData.forEach(function ( repoData ){
+      // console.log("Repo Name:", repoData.name);
+      if ( repo === repoData.name ){
+        console.log('working');
+        ns.renderRepoDetails( repoData );
+      }
+    });
+  };
+
+    ns.renderRepoDetails = function renderRepoDetails( repoData ){
        $('#reposDetail').empty();
+       console.log('Inside Repo Details');
        ns.repoDetailNav();
        $( '#reposDetail')
          .append( $( 'ul' )
-           .append( $('li').text( 'Page Under Consturction'))
+           .append( $('li').text( repoData.forks))
          );
     };
 

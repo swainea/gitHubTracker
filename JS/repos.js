@@ -2,11 +2,11 @@
   'use strict';
 
   ns.repos = {};
-  var repoData = []; // put this on the name space?? That feels wrong
+  ns.repoData = []; // put this on the name space?? That feels wrong
 
   function getRepos(callback) {
-    if (repoData.length > 0){
-      callback(repoData);
+    if (ns.repoData.length > 0){
+      callback(ns.repoData);
       return;
     }
     $.ajax({
@@ -17,9 +17,9 @@
               Authorization: "token " + ns.userToken
             },
       success: function (data){
-        repoData = data;
+        ns.repoData = data;
         console.log(data);
-        callback(repoData);
+        callback(ns.repoData);
       },
       error: function (){
         callback(null);
@@ -45,7 +45,7 @@
           .append($('<tbody>').attr('id', 'repoTableData'));
       for(i=0; i<data.length; i++){
         $('#repoTableData')
-            .append($('<tr><td>' + '<a class = "repoLink" + href="#reposDetail_' + data[i].name + '">' + data[i].name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+            .append($('<tr><td>' + '<a class = "repoLink" + href="#reposDetail__' + data[i].name + '">' + data[i].name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
       }
   };
 

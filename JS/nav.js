@@ -7,18 +7,21 @@
 
   function doNav(){
     $('.view').hide();
-    var newView = $( window.location.hash ).show();
+    $( window.location.hash ).show();
 
     $('nav li').removeClass('active');
     $('nav a[href="' + window.location.hash + '"]').closest('li').addClass('active');
 
-    if (newView.length === 0) {
+    if (!ns.userToken){
             window.location.hash ='#login';
     } else {
-      var viewName = window.location.hash.substr(1); // split out the repo name here but the underscores are a problem- cant split on them bc they are in repo names 
+      var viewName = window.location.hash.substr(1).split('__');
+      // .split('__'); // split out the repo name here but the underscores are a problem- cant split on them bc they are in repo names
+      console.log(viewName);
 
-      if (ns[viewName] && ns[viewName].load) {
-        ns[viewName].load();
+      if (ns[viewName[0]] && ns[viewName[0]].load) {
+        ns[viewName[0]].load(viewName[1]);
+        console.log(viewName[1]);
       }
     }
   }
