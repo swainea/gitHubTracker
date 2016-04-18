@@ -7,16 +7,20 @@
 
   function doNav(){
     $('.view').hide();
-    $( window.location.hash ).show();
+    console.log('showing', window.location.hash);
+    var viewName = window.location.hash.substr(1).split('__');
+    $( '#' + viewName[0] ).show();
+
 
     $('nav li').removeClass('active');
-    $('nav a[href="' + window.location.hash + '"]').closest('li').addClass('active');
+    $('nav a[href="' + '#' + viewName[0] + '"]').closest('li').addClass('active');
+    // I cannot tell if this is right for my tabs
 
     if (!ns.userToken){
             window.location.hash ='#login';
     } else {
-      var viewName = window.location.hash.substr(1).split('__');
-      // .split('__'); // split out the repo name here but the underscores are a problem- cant split on them bc they are in repo names
+      window.location.hash.substr(1).split('__');
+      //there might be a better way to do this .split
       console.log(viewName);
 
       if (ns[viewName[0]] && ns[viewName[0]].load) {

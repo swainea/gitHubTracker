@@ -11,26 +11,28 @@
       if ( repo === repoData.name ){
         console.log('working');
         ns.renderRepoDetails( repoData );
+        ns.repoDetailNav( repoData );
       }
     });
   };
 
     ns.renderRepoDetails = function renderRepoDetails( repoData ){
-       $('#reposDetail').empty();
+      $('#reposDetail').empty();
        console.log('Inside Repo Details');
-       ns.repoDetailNav();
        $( '#reposDetail')
-         .append( $( 'ul' )
-           .append( $('li').text( repoData.forks))
-         );
+           .append( $('p').text( repoData.forks));
     };
 
-    ns.repoDetailNav = function repoDetailNav(){
+    ns.repoDetailNav = function repoDetailNav( repoData ){
+      //nav tab is being duplicated each time the page loads 
+
+      // console.log('Inside Repo Detail Nav');
+      // console.log('Repo Data reaching Nav:', repoData);
       $('.nav')
           .append($('<li>')
-             .append($('<a>').attr('href','#repoDetails').text('Repo Detail') //try also adding the aria if this works
-           )
-      );
+             .append($('<a href="#reposDetail__' + repoData.name + ' class="active" ">' + 'Repo Detail' + '</a>') //try also adding the aria if this works
+            )
+          );
     };
 
   window.ght = ns;

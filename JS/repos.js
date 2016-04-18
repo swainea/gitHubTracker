@@ -45,7 +45,7 @@
           .append($('<tbody>').attr('id', 'repoTableData'));
       for(i=0; i<data.length; i++){
         $('#repoTableData')
-            .append($('<tr><td>' + '<a class = "repoLink" + href="#reposDetail__' + data[i].name + '">' + data[i].name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+            .append($('<tr><td>' + '<a href="#reposDetail__' + data[i].name + '">' + data[i].name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
       }
   };
 

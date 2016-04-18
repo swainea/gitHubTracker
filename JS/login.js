@@ -30,7 +30,7 @@
 
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
-    $('.nav').hide();
+    $('.nav').hide(); //check this
     // ns.userToken = $('#userToken').val();
     var nextView = $(this).attr('action');
     getData($('#userToken').val(), function dataSuccessful (data) {

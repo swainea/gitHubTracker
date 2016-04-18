@@ -30,7 +30,7 @@
 
   $('#login').submit(function loginWithToken(event){
     event.preventDefault();
-    $('.nav').hide();
+    $('.nav').hide(); //check this
     // ns.userToken = $('#userToken').val();
     var nextView = $(this).attr('action');
     getData($('#userToken').val(), function dataSuccessful (data) {
@@ -61,16 +61,20 @@
 
   function doNav(){
     $('.view').hide();
-    $( window.location.hash ).show();
+    console.log('showing', window.location.hash);
+    var viewName = window.location.hash.substr(1).split('__');
+    $( '#' + viewName[0] ).show();
+
 
     $('nav li').removeClass('active');
-    $('nav a[href="' + window.location.hash + '"]').closest('li').addClass('active');
+    $('nav a[href="' + '#' + viewName[0] + '"]').closest('li').addClass('active');
+    // I cannot tell if this is right for my tabs
 
     if (!ns.userToken){
             window.location.hash ='#login';
     } else {
-      var viewName = window.location.hash.substr(1).split('__');
-      // .split('__'); // split out the repo name here but the underscores are a problem- cant split on them bc they are in repo names
+      window.location.hash.substr(1).split('__');
+      //there might be a better way to do this .split
       console.log(viewName);
 
       if (ns[viewName[0]] && ns[viewName[0]].load) {
@@ -100,26 +104,28 @@ ns.init = function() {
       if ( repo === repoData.name ){
         console.log('working');
         ns.renderRepoDetails( repoData );
+        ns.repoDetailNav( repoData );
       }
     });
   };
 
     ns.renderRepoDetails = function renderRepoDetails( repoData ){
-       $('#reposDetail').empty();
+      $('#reposDetail').empty();
        console.log('Inside Repo Details');
-       ns.repoDetailNav();
        $( '#reposDetail')
-         .append( $( 'ul' )
-           .append( $('li').text( repoData.forks))
-         );
+           .append( $('p').text( repoData.forks));
     };
 
-    ns.repoDetailNav = function repoDetailNav(){
+    ns.repoDetailNav = function repoDetailNav( repoData ){
+      //nav tab is being duplicated each time the page loads 
+
+      // console.log('Inside Repo Detail Nav');
+      // console.log('Repo Data reaching Nav:', repoData);
       $('.nav')
           .append($('<li>')
-             .append($('<a>').attr('href','#repoDetails').text('Repo Detail') //try also adding the aria if this works
-           )
-      );
+             .append($('<a href="#reposDetail__' + repoData.name + ' class="active" ">' + 'Repo Detail' + '</a>') //try also adding the aria if this works
+            )
+          );
     };
 
   window.ght = ns;
@@ -172,7 +178,7 @@ ns.init = function() {
           .append($('<tbody>').attr('id', 'repoTableData'));
       for(i=0; i<data.length; i++){
         $('#repoTableData')
-            .append($('<tr><td>' + '<a class = "repoLink" + href="#reposDetail__' + data[i].name + '">' + data[i].name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
+            .append($('<tr><td>' + '<a href="#reposDetail__' + data[i].name + '">' + data[i].name + '</a>' + '</td><td>' + data[i].stargazers_count + '</td><td>' + data[i].open_issues_count + '</td></tr>'));
       }
   };
 
