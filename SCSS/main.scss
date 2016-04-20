@@ -1,11 +1,6 @@
-@import "mixins"; 
+@import "mixins";
 
-section {
-  display: block;
-  width: 80%;
-  margin: 0 auto;
-  padding-top: 3%;
-}
+
 
 #profile {
   width: 50%;
@@ -23,12 +18,25 @@ nav {
   padding-top: 1.5%;
 }
 
-.wrapper {
+.container {
   float: left;
 }
 
 img {
   float: right;
-  height: 7em;
-  width: 7em;
+  @include square(8em);
+  border-radius: 1em;
+}
+
+// #reposDetail li {
+//   @extend #profile li;
+// }
+#login {
+  text-align: center;
+  margin-top: 10%;
+}
+
+.form-control {
+  width: 40%;
+  display: inline;
 }

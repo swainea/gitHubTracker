@@ -1,9 +1,3 @@
-section {
-  display: block;
-  width: 80%;
-  margin: 0 auto;
-  padding-top: 3%; }
-
 #profile {
   width: 50%; }
 
@@ -17,12 +11,21 @@ nav {
   color: #837777;
   padding-top: 1.5%; }
 
-.wrapper {
+.container {
   float: left; }
 
 img {
   float: right;
-  height: 7em;
-  width: 7em; }
+  height: 8em;
+  width: 8em;
+  border-radius: 1em; }
+
+#login {
+  text-align: center;
+  margin-top: 10%; }
+
+.form-control {
+  width: 40%;
+  display: inline; }
 
 /*# sourceMappingURL=main.css.map */
